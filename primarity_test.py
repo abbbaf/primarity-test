@@ -1,4 +1,5 @@
 
+
 """
 Primarity tests:
 
@@ -16,6 +17,9 @@ Primarity tests:
 
 import math
 import random
+import sys
+
+
 
 class BailliePSW():
 
@@ -154,9 +158,7 @@ def MillerRabin(n,numOfRounds=40,initialize=True):
 
 
 def trialDivision(n):
-    if n == 0 or n == 1:
-        return False
-    return all(n % i for i in range(2,int(n**0.5)+1))
+    return n > 1 and all(n % i for i in range(2,int(n**0.5)+1))
 
 
 
@@ -203,10 +205,19 @@ def isPrime(n):
     return MillerRabin(n,initialize=False)
     
 
-def generateRandomPrime(bits):
-    max = 2**bits
-    r = 1
-    while not isPrime(r):
-        r = random.randrange(0,max)
-    return r
+def main():
+    if len(sys.argv) == 1:
+        print(sys.argv[0] + " <prime-number-to-check>")
+    else:
+        try:
+            num = int(sys.argv[1])
+            if num == 1:
+                print("1 is neighter prime nor composite!")
+            elif (isPrime(num)):
+                print(str(num) + " is a prime number!")
+            else:
+                print(str(num) + " is a composite number")
+        except ValueError:
+            print("Error: input must be an integer")
 
+main()
